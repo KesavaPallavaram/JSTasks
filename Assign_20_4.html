@@ -1,0 +1,185 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <style>
+        .center {
+            margin: auto;
+            width: 50%;
+            padding: 10px;
+
+        }
+
+        p {
+            font-size: 14px;
+            font-family: sans-serif;
+
+        }
+
+        .employees-table {
+
+            padding-top: 20px;
+            margin: auto;
+
+
+        }
+
+        body>table {
+            width: 80%;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        table.list {
+            width: 100%;
+        }
+
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        .btn{
+            margin: 10px;
+            float: right;
+        }
+    </style>
+    <script>
+        //let array1 = [];
+		var selectedRowIndex;
+        function adding() {
+
+            var x = document.getElementById('viewTabId');
+            x.style.display = "block"
+
+
+            var cont = document.getElementById('contactId').value;
+            var phne = document.getElementById('phneId').value;
+            var table = document.getElementById('tableId');
+
+            // adding checkbox dynamically to table
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            checkbox.name = "name";
+            checkbox.value = "value";
+            checkbox.id = "id";
+            
+
+          
+
+            // adding values to table
+            var rowCount = table.getElementsByTagName("tr").length;
+            var row = table.insertRow(rowCount);
+			
+			row.onclick = function selectData() {
+				selectedRowIndex = this.rowIndex;
+				document.getElementById('contactId').value = table.rows[selectedRowIndex].cells[1].innerHTML;
+				document.getElementById('phneId').value = table.rows[selectedRowIndex].cells[2].innerHTML;
+            }
+
+           
+			if(!(cont==="" && phne==="")){
+			 row.insertCell(0).appendChild(checkbox);
+            row.insertCell(1).innerHTML = cont;
+			
+            row.insertCell(2).innerHTML = phne;
+			}
+
+             // clearing the value after adding
+             document.getElementById('contactId').value = "";
+            document.getElementById('phneId').value = "";
+
+           
+
+
+
+           
+
+        }
+        function viewing() {
+            //alert("viewed successfully");
+
+            var x = document.getElementById('viewTabId');
+            if (x.style.display === "none") {
+                x.style.display = "block"
+            }
+            else {
+                x.style.display = "none";
+            }
+
+        }
+		
+		function deleteData() {
+			var table = document.getElementById('tableId');
+			
+			var selectCheckboxCount = 1;
+			while (selectCheckboxCount < table.rows.length) {
+			
+				var input = table.rows[selectCheckboxCount].cells[0].children[0];
+				if (input && input.checked) {
+				  table.deleteRow(selectCheckboxCount);
+				}
+				else {
+				  selectCheckboxCount++;
+				}
+			  }
+		}
+		
+		function updateData() {
+			var table = document.getElementById('tableId');
+			table.rows[selectedRowIndex].cells[1].innerHTML = document.getElementById('contactId').value;
+			table.rows[selectedRowIndex].cells[2].innerHTML = document.getElementById('phneId').value;
+			document.getElementById('contactId').value = "";
+            document.getElementById('phneId').value = "";
+		}
+
+    </script>
+
+</head>
+
+<body>
+    <div class="center ">
+        <div>
+
+
+            <form>
+                <p>contact name:</p>
+                <input id='contactId' type="text" name="" placeholder="enter the name...">
+                <p>phone num:</p>
+                <input id='phneId' type="number" name="" placeholder="enter the number...">
+            </form>
+        </div>
+        <div>
+            <button id="addbtn" onclick="adding()">Add</button>
+            <button id="viewbtn" onclick="viewing()">View</button>
+            
+
+        </div>
+        <div class="btn">
+            <button id="upbtn" onclick="updateData()">Update</button>
+            <button id="delbtn" onclick="deleteData()">Delete</button>
+        </div>
+        <div class="contact-table" id="viewTabId" style="margin-top: 20px;display: none;">
+            <table class="list" id="tableId" cellpadding="2">
+                <tr id="trId">
+                    <td id="checkboxId"></td>
+                    <td id="cntId">contact name</td>
+                    <td id="pneId">phone number</td>
+                    
+                </tr>
+
+
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+</body>
+
+</html>
